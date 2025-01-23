@@ -8,11 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Configurar o DbContext para usar o PostgreSQL
+// Configurar o DbContext para usar o PostgreSQL e Registrar o IPessoaService com a implementação PessoaService
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-// Registrar o IPessoaService com a implementação PessoaService
 builder.Services.AddScoped<IPessoaService, PessoaService>();
 
 builder.Services.AddControllers();
@@ -23,22 +20,29 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
+// Usar arquivos estáticos (deve estar na pasta 'ClientApp/build' após rodar 'npm run build' no React)
+app.UseDefaultFiles();  // Carregar o 'index.html' por padrão
+app.UseStaticFiles();   // Servir os arquivos estáticos gerados do React
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();  // Configure a rota para API e arquivos estáticos
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Roteamento do SPA: redireciona todas as requisições para o React quando não for uma API
 app.MapFallbackToFile("/index.html");
 
 app.Run();
