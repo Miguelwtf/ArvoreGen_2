@@ -45,4 +45,12 @@ app.MapControllers();
 // Roteamento do SPA: redireciona todas as requisições para o React quando não for uma API
 app.MapFallbackToFile("/index.html");
 
+app.UseResponseCompression();  // Certifique-se que a resposta está sendo comprimida corretamente
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("Content-Type", "text/html; charset=utf-8");
+    await next();
+});
+
+
 app.Run();

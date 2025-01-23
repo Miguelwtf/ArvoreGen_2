@@ -1,17 +1,17 @@
-import React from 'react';
+ï»¿import React from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 
 const Home = () => {
     return (
         <Container className="mt-5">
-            <h1 className="text-center mb-4">Bem-vindo à Página Inicial</h1>
+            <h1 className="text-center mb-4">Bem-vindo Ã  PÃ¡gina Inicial</h1>
             <Row>
                 <Col md={4}>
                     <Card>
                         <Card.Body>
                             <Card.Title>Funcionalidade 1</Card.Title>
                             <Card.Text>
-                                Descrição da funcionalidade 1. Isso pode ser um link ou informação útil.
+                                DescriÃ§Ã£o da funcionalidade 1. Isso pode ser um link ou informaÃ§Ã£o Ãºtil. Ã©Ã©Ã©Ã©
                             </Card.Text>
                             <Button variant="primary" href="/funcionalidade1">Acessar</Button>
                         </Card.Body>
@@ -22,7 +22,7 @@ const Home = () => {
                         <Card.Body>
                             <Card.Title>Funcionalidade 2</Card.Title>
                             <Card.Text>
-                                Aqui você pode descrever a segunda funcionalidade do sistema.
+                                Aqui vocÃª pode descrever a segunda funcionalidade do sistema.
                             </Card.Text>
                             <Button variant="success" href="/funcionalidade2">Acessar</Button>
                         </Card.Body>
