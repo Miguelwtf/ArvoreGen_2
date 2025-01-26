@@ -1,45 +1,46 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ArvoreGen_2.Server.Models;
 
 namespace ArvoreGen_2.Server.Models
 {
-
+    [Table("pessoas")]
     public class Pessoa
     {
-        public int IdPessoa { get; set; }
+        [Key]
+        public int idpessoa { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string? NomeSolteiro { get; set; } 
+        public string? nomesolteiro { get; set; } 
 
-        public DateTime? DataNascimento { get; set; }
+        public DateTime? datanascimento { get; set; }
 
-        public DateTime? DataFalecimento { get; set; }
+        public DateTime? datafalecimento { get; set; }
 
         [StringLength(1)]
-        [RegularExpression("^[MF]$", ErrorMessage = "Sexo deve ser 'M' ou 'F'.")]
-        public string? Sexo { get; set; } 
+        public string? sexo { get; set; } 
 
         [StringLength(100)]
-        public string? LocalNascimento { get; set; } 
+        public string? localnascimento { get; set; } 
 
         [StringLength(100)]
-        public string? LocalFalecimento { get; set; }
+        public string? localfalecimento { get; set; }
 
-        public DateTime DataCriacao { get; set; } 
-
-        [StringLength(100)]
-        public string? NomeCasado { get; set; } 
+        public DateTime datacriacao { get; set; } 
 
         [StringLength(100)]
-        public string? NomeAlternativo1 { get; set; } 
+        public string? nomecasado { get; set; } 
 
         [StringLength(100)]
-        public string? NomeAlternativo2 { get; set; } 
+        public string? nomealternativo1 { get; set; } 
+
+        [StringLength(100)]
+        public string? nomealternativo2 { get; set; } 
 
         [StringLength(250)]
-        public string? Observacao { get; set; } 
+        public string? observacao { get; set; } 
     }
 
 }

@@ -1,6 +1,19 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "pg": "^8.13.1",
     "react-bootstrap": "^2.10.8",
     "react-router-dom": "^7.1.3"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "arvoregen_2.server",
+  "version": "1.0.0",
+  "main": "Server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

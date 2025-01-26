@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ArvoreGen_2.Server.DbConnections;
 using ArvoreGen_2.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArvoreGen_2.Server.Controllers
 {
@@ -10,64 +11,53 @@ namespace ArvoreGen_2.Server.Controllers
     {
         private readonly IPessoaService _pessoaService;
 
+        const string SINALIZADOR = " ##########################################################";
+
         public PessoaController(IPessoaService pessoaService)
         {
             _pessoaService = pessoaService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoas()
+        [Route("visualizar")]
+        [Produces("application/json")]
+        public async Task<IActionResult> Visualizar()
         {
-            var pessoas = await _pessoaService.ObterTodasPessoasAsync();
+            var pessoas = await _pessoaService.GetAll();
             return Ok(pessoas);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Pessoa>> CreatePessoa([FromBody] Pessoa pessoa)
+        [Route("adicionar")]
+        [Consumes("application/json")]
+        public async Task<IActionResult> Adicionar([FromBody] Pessoa novaPessoa)
         {
-            var novaPessoa = await _pessoaService.CriarPessoaAsync(pessoa);
-            return CreatedAtAction(nameof(GetPessoa), new { id = novaPessoa.IdPessoa}, novaPessoa);
+            if (novaPessoa == null)
+            {
+                return BadRequest("Os dados da pessoa são inválidos.");
+            }
+            Console.WriteLine(nameof(this.ToString) + " Adicionar " + SINALIZADOR);
+
+            await _pessoaService.Adicionar(novaPessoa);
+            return Ok("Pessoa adicionada com sucesso!");
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Pessoa>> GetPessoa(int id)
+        [HttpGet]
+        [Route("adicionarTeste")]
+        public async Task<IActionResult> Teste([FromBody] Pessoa novaPessoa)
         {
-            var pessoa = await _pessoaService.ObterPessoaPorIdAsync(id);
-            if (pessoa == null)
+            if (novaPessoa == null)
             {
-                return NotFound();
+                return BadRequest("Os dados da pessoa são inválidos.");
             }
-            return Ok(pessoa);
+
+            if (novaPessoa == null)
+            {
+                return BadRequest("Os dados da pessoa são inválidos.");
+            }
+
+            await _pessoaService.Adicionar(novaPessoa);
+            return Ok("Pessoa adicionada com sucesso!");
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePessoa(int id, [FromBody] Pessoa pessoa)
-        {
-            if (id != pessoa.IdPessoa)
-            {
-                return BadRequest();
-            }
-
-            var sucesso = await _pessoaService.AtualizarPessoaAsync(pessoa);
-            if (!sucesso)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePessoa(int id)
-        {
-            var sucesso = await _pessoaService.RemoverPessoaAsync(id);
-            if (!sucesso)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
     }
 }

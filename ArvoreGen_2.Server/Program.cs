@@ -3,26 +3,36 @@ using ArvoreGen_2.Server.Controllers;
 using Microsoft.EntityFrameworkCore;
 using ArvoreGen_2.Server.Models;
 using Npgsql;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-// Configurar o DbContext para usar o PostgreSQL e Registrar o IPessoaService com a implementação PessoaService
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IPessoaService, PessoaService>();
 
 builder.Services.AddControllers();
 
-// Swagger e OpenAPI para documentação
+// Adicionar serviços Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "API de Pessoas",
+        Version = "v1"
+    });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        builder => builder
+            .WithOrigins("https://localhost:56214")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 var app = builder.Build();
-
-// Usar arquivos estáticos (deve estar na pasta 'ClientApp/build' após rodar 'npm run build' no React)
-app.UseDefaultFiles();  // Carregar o 'index.html' por padrão
-app.UseStaticFiles();   // Servir os arquivos estáticos gerados do React
 
 if (app.Environment.IsDevelopment())
 {
@@ -36,21 +46,27 @@ else
     app.UseHsts();
 }
 
+// Configuração do Swagger
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API de Pessoas v1");
+    });
+}
+
 app.UseHttpsRedirection();
-app.UseRouting();  // Configure a rota para API e arquivos estáticos
+app.UseCors("AllowLocalhost");
+app.UseRouting();
 app.UseAuthorization();
-
 app.MapControllers();
-
-// Roteamento do SPA: redireciona todas as requisições para o React quando não for uma API
 app.MapFallbackToFile("/index.html");
 
-app.UseResponseCompression();  // Certifique-se que a resposta está sendo comprimida corretamente
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("Content-Type", "text/html; charset=utf-8");
     await next();
 });
-
 
 app.Run();

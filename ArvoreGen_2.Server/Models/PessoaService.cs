@@ -11,49 +11,30 @@ namespace ArvoreGen_2.Server.Models
     {
         private readonly ApplicationDbContext _context;
 
+        const string SINALIZADOR = " #############################";
+
         public PessoaService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Pessoa> CriarPessoaAsync(Pessoa pessoa)
-        {
-            _context.Pessoas.Add(pessoa);
-            await _context.SaveChangesAsync();
-            return pessoa; // Retorna a pessoa criada
-        }
-
-        public async Task<IEnumerable<Pessoa>> ObterTodasPessoasAsync()
+        public async Task<List<Pessoa>> GetAll()
         {
             return await _context.Pessoas.ToListAsync();
         }
 
-        public async Task<Pessoa> ObterPessoaPorIdAsync(int id)
+        public async Task Adicionar(Pessoa pessoa)
         {
-            return await _context.Pessoas
-                                 .Where(p => p.IdPessoa == id)
-                                 .FirstOrDefaultAsync();
-        }
+            pessoa.datafalecimento = pessoa.datafalecimento?.ToUniversalTime();
+            pessoa.datanascimento = pessoa.datanascimento?.ToUniversalTime();
+            
+            _context.Pessoas.Add(pessoa);
 
-        public async Task<bool> AtualizarPessoaAsync(Pessoa pessoa)
-        {
-            _context.Pessoas.Update(pessoa);
-            var rowsAffected = await _context.SaveChangesAsync();
-            return rowsAffected > 0;
-        }
-
-        public async Task<bool> RemoverPessoaAsync(int id)
-        {
-            var pessoa = await _context.Pessoas.FindAsync(id);
-            if (pessoa == null)
-            {
-                return false;
-            }
-
-            _context.Pessoas.Remove(pessoa);
-            var rowsAffected = await _context.SaveChangesAsync();
-            return rowsAffected > 0;
+            Console.WriteLine("Data Criação: " + pessoa.datacriacao + SINALIZADOR);
+            Console.WriteLine("Data Nascimento: " + pessoa.datanascimento + SINALIZADOR);
+            Console.WriteLine("Data Falecimento: " + pessoa.datafalecimento + SINALIZADOR);
+            
+            await _context.SaveChangesAsync();
         }
     }
-
 }
