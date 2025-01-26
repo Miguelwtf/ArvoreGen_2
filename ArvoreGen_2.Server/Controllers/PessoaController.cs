@@ -59,5 +59,26 @@ namespace ArvoreGen_2.Server.Controllers
             await _pessoaService.Adicionar(novaPessoa);
             return Ok("Pessoa adicionada com sucesso!");
         }
+
+        [HttpDelete("excluir/{id}")]
+        public async Task<IActionResult> Deletar(int id)
+        {
+            try
+            {
+                bool resultado = await _pessoaService.Deletar(id);
+                if (resultado)
+                {
+                    return Ok("Pessoa excluída com sucesso.");
+                }
+                else
+                {
+                    return NotFound("Pessoa não encontrada.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro ao excluir a pessoa: {ex.Message}");
+            }
+        }
     }
 }

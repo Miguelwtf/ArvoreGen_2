@@ -18,23 +18,35 @@ namespace ArvoreGen_2.Server.Models
             _context = context;
         }
 
+        /* Visualizar ------------------------- */
         public async Task<List<Pessoa>> GetAll()
         {
             return await _context.Pessoas.ToListAsync();
         }
 
+        /* Adicionar ------------------------- */
         public async Task Adicionar(Pessoa pessoa)
         {
-            pessoa.datafalecimento = pessoa.datafalecimento?.ToUniversalTime();
-            pessoa.datanascimento = pessoa.datanascimento?.ToUniversalTime();
+            pessoa.DataNascimento = pessoa.DataNascimento?.ToUniversalTime();
             
             _context.Pessoas.Add(pessoa);
 
-            Console.WriteLine("Data Criação: " + pessoa.datacriacao + SINALIZADOR);
-            Console.WriteLine("Data Nascimento: " + pessoa.datanascimento + SINALIZADOR);
-            Console.WriteLine("Data Falecimento: " + pessoa.datafalecimento + SINALIZADOR);
+            Console.WriteLine("Data Falecimento: " + pessoa.DataNascimento + SINALIZADOR);
             
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> Deletar(int id)
+        {
+            var pessoa = await _context.Pessoas.FindAsync(id);
+            if (pessoa == null)
+            {
+                return false;
+            }
+
+            _context.Pessoas.Remove(pessoa);
+            await _context.SaveChangesAsync();
+            return true; 
         }
     }
 }

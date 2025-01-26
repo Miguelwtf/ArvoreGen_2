@@ -18,6 +18,20 @@ const PessoasVisualizar = () => {
         fetchPessoas();
     }, []);
 
+    const handleDelete = async (idPessoa) => {
+        const confirmDelete = window.confirm("Tem certeza que deseja excluir esta pessoa?");
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`http://localhost:5162/api/pessoa/excluir/${idPessoa}`);
+            setPessoas(pessoas.filter((pessoa) => pessoa.idPessoa !== idPessoa));
+            alert("Pessoa excluída com sucesso!");
+        } catch (error) {
+            console.error("Erro ao excluir pessoa:", error);
+            alert("Ocorreu um erro ao tentar excluir a pessoa.");
+        }
+    };
+
     return (
         <div className="container">
             <h1>Visualizar Pessoas</h1>
@@ -27,17 +41,19 @@ const PessoasVisualizar = () => {
                         <th>ID</th>
                         <th>Nome Solteiro</th>
                         <th>Sexo</th>
+                        <th>Data Nascimento</th>
                         <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
                     {pessoas.length > 0 ? (
                         pessoas.map((pessoa) => (
-                            <tr key={pessoa.idpessoa}>
-                                <td>{pessoa.idpessoa}</td>
-                                <td>{pessoa.nomesolteiro}</td>
+                            <tr key={pessoa.idPessoa}>
+                                <td>{pessoa.idPessoa}</td>
+                                <td>{pessoa.nome}</td>
                                 <td>{pessoa.sexo}</td>
-                                <td>[x]</td>
+                                <td>{pessoa.dataNascimento}</td>
+                                <td><button className="btn btn-danger" onClick={() => handleDelete(pessoa.idPessoa)}>X</button> </td>
                             </tr>
                         ))
                     ) : (

@@ -12,5 +12,7 @@ namespace ArvoreGen_2.Server.Models
         Task<List<Pessoa>> GetAll();
         
         Task Adicionar(Pessoa pessoa);
+
+        Task<bool> Deletar(int id);
     }
 }
