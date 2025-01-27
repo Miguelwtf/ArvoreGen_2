@@ -4,10 +4,16 @@ import React from 'react';
 import Sidebar from './components/Sidebar';  
 
 import Home from './pages/Home'; 
-import Pessoas from './pages/Pessoas';
-import Relacionamentos from './pages/Relacionamentos';
-import PessoasVisualizar from './pages/PessoasVisualizar';
+
+import PessoasEditar from './pages/PessoasEditar';
 import PessoasAdicionar from './pages/PessoasAdicionar';
+import PessoasVisualizar from './pages/PessoasVisualizar';
+
+import RelacionamentosAdicionar from './pages/RelacionamentosAdicionar';
+import RelacionamentosVisualizar from './pages/RelacionamentosVisualizar';
+
+import InformacoesAdicionar from './pages/InformacoesAdicionar';
+import InformacoesVisualizar from './pages/InformacoesVisualizar';
 
 const App = () => {
     return (
@@ -16,10 +22,16 @@ const App = () => {
             <div className="flex-grow-1" style={{ marginLeft: "250px" }}> 
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/pessoas" element={<Pessoas />} />
-                    <Route path="/pessoas/visualizar" element={<PessoasVisualizar />} />
+
                     <Route path="/pessoas/adicionar" element={<PessoasAdicionar />} />
-                    <Route path="/relacionamentos" element={<Relacionamentos />} />
+                    <Route path="/pessoas/visualizar" element={<PessoasVisualizar />} />
+                    <Route path="/pessoas/editar/:idPessoa" element={<PessoasEditar />} />
+
+                    <Route path="/relacionamentos/adicionar" element={<RelacionamentosAdicionar />} />
+                    <Route path="/relacionamentos/visualizar" element={<RelacionamentosVisualizar />} />
+
+                    <Route path="/informacoes/adicionar" element={<InformacoesAdicionar />} />
+                    <Route path="/informacoes/visualizar" element={<InformacoesVisualizar />} />
                 </Routes>
             </div>
         </div>
@@ -27,3 +39,5 @@ const App = () => {
 };
 
 export default App;
+//server -> dotnet run
+//client -> npm run dev

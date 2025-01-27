@@ -1,7 +1,7 @@
 ﻿import React, { useState } from "react";
 import axios from "axios";
 
-function PessoasAdicionar() {
+function RelacionamentosAdicionar() {
     const [formData, setFormData] = useState({
     });
 
@@ -12,7 +12,7 @@ function PessoasAdicionar() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5162/api/pessoa/adicionar", {...formData,}, {
+            const response = await axios.post("http://localhost:5162/api/relacionamento/adicionar", {...formData,}, {
                 headers: {
                     'Content-Type': 'application/json', 
                     'Accept': 'application/json' 
@@ -29,38 +29,38 @@ function PessoasAdicionar() {
 
     const handleClear = () => {
         setFormData({
-            Nome: '',
-            DataNascimento: "",
-            Sexo: '',
+            IdPessoa1: '',
+            IdPessoa2: "",
+            TipoRelacionamento: '',
         });
     };
 
     return (
         <div className="container">
-            <h2>Adicionar Pessoa</h2>
+            <h2>Adicionar Relacionamento</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Nome de Solteiro:</label>
+                    <label>Pessoa 1:</label>
                     <input
-                        type="text"
-                        name="Nome"
-                        value={formData.Nome}
+                        type="int"
+                        name="IdPessoa1"
+                        value={formData.IdPessoa1}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div>
-                    <label>Data de Nascimento:</label>
+                    <label>Pessoa 2:</label>
                     <input
-                        type="date"
-                        name="DataNascimento"
-                        value={formData.DataNascimento}
+                        type="int"
+                        name="IdPessoa2"
+                        value={formData.IdPessoa2}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <label>Sexo:</label>
-                    <select name="Sexo" value={formData.Sexo} onChange={handleChange}>
+                    <label>Tipo de Relacionamento:</label>
+                    <select name="TipoRelacionamento" value={formData.TipoRelacionamento} onChange={handleChange}>
                         <option value="N">Selecione</option>
                         <option value="M">Masculino</option>
                         <option value="F">Feminino</option>
@@ -76,4 +76,4 @@ function PessoasAdicionar() {
     );
 }
 
-export default PessoasAdicionar;
+export default RelacionamentosAdicionar;

@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArvoreGen_2.Server.Models
 {
 
-    public interface IPessoaService
+    public interface IRelacionamentoService
     {
-        Task<List<Pessoa>> GetAll();
+        Task<List<Relacionamento>> GetAll();
         
-        Task Adicionar(Pessoa pessoa);
+        Task Adicionar(Relacionamento relacionamento);
 
         Task<bool> Deletar(int id);
 
-        Task<bool> Editar(int id, Pessoa pessoa);
+        Task<bool> Editar(int id, Relacionamento relacionamento);
     }
 }

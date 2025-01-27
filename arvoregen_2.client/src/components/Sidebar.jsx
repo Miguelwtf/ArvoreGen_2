@@ -12,7 +12,7 @@ import {
     CNavTitle,
 } from '@coreui/react'
 
-import { cilSitemap, cilHome, cilPeople, cilPen, cilPlus } from '@coreui/icons'
+import { cilSitemap, cilHome, cilPeople, cilPen, cilPlus, cilNotes } from '@coreui/icons'
 
 const Sidebar = () => {
     return (
@@ -41,14 +41,28 @@ const Sidebar = () => {
                 <CNavGroup
                     toggler={
                         <>
-                            <CIcon customClassName="nav-icon" icon={cilSitemap} /> Relacionamentos
+                            <CIcon customClassName="nav-icon" icon={cilSitemap} /> Relações
                         </>
                     }
                 >
-                    <CNavItem href="/relacionamentos">
+                    <CNavItem href="/relacionamentos/adicionar">
                         <CIcon customClassName="nav-icon" icon={cilPlus} /> Inserir
                     </CNavItem>
-                    <CNavItem href="/relacionamentos">
+                    <CNavItem href="/relacionamentos/visualizar">
+                        <CIcon customClassName="nav-icon" icon={cilPen} /> Ver/Editar
+                    </CNavItem>
+                </CNavGroup>
+                <CNavGroup
+                    toggler={
+                        <>
+                            <CIcon customClassName="nav-icon" icon={cilNotes} /> Informações
+                        </>
+                    }
+                >
+                    <CNavItem href="/informacoes/adicionar">
+                        <CIcon customClassName="nav-icon" icon={cilPlus} /> Inserir
+                    </CNavItem>
+                    <CNavItem href="/informacoes/visualizar">
                         <CIcon customClassName="nav-icon" icon={cilPen} /> Ver/Editar
                     </CNavItem>
                 </CNavGroup>

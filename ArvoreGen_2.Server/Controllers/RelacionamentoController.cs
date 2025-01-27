@@ -7,15 +7,15 @@ namespace ArvoreGen_2.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PessoaController : ControllerBase
+    public class RelacionamentoController : ControllerBase
     {
-        private readonly IPessoaService _pessoaService;
+        private readonly IRelacionamentoService _relacionamentoService;
 
         const string SINALIZADOR = " ##########################################################";
 
-        public PessoaController(IPessoaService pessoaService)
+        public RelacionamentoController(IRelacionamentoService relacionamentoService)
         {
-            _pessoaService = pessoaService;
+            _relacionamentoService = relacionamentoService;
         }
 
         [HttpGet]
@@ -23,22 +23,22 @@ namespace ArvoreGen_2.Server.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Visualizar()
         {
-            var pessoas = await _pessoaService.GetAll();
-            return Ok(pessoas);
+            var relacionamentos = await _relacionamentoService.GetAll();
+            return Ok(relacionamentos);
         }
 
         [HttpPost]
         [Route("adicionar")]
         [Consumes("application/json")]
-        public async Task<IActionResult> Adicionar([FromBody] Pessoa novaPessoa)
+        public async Task<IActionResult> Adicionar([FromBody] Relacionamento novoRelacionamento)
         {
-            if (novaPessoa == null)
+            if (novoRelacionamento == null)
             {
                 return BadRequest("Os dados da pessoa são inválidos.");
             }
             Console.WriteLine(nameof(this.ToString) + " Adicionar " + SINALIZADOR);
 
-            await _pessoaService.Adicionar(novaPessoa);
+            await _relacionamentoService.Adicionar(novoRelacionamento);
             return Ok("Pessoa adicionada com sucesso!");
         }
 
@@ -47,7 +47,7 @@ namespace ArvoreGen_2.Server.Controllers
         {
             try
             {
-                bool resultado = await _pessoaService.Deletar(id);
+                bool resultado = await _relacionamentoService.Deletar(id);
                 if (resultado)
                 {
                     return Ok("Pessoa excluída com sucesso.");
@@ -64,11 +64,11 @@ namespace ArvoreGen_2.Server.Controllers
         }
 
         [HttpPut("editar/{id}")]
-        public async Task<IActionResult> Editar(int id, [FromBody] Pessoa pessoa)
+        public async Task<IActionResult> Editar(int id, [FromBody] Relacionamento relacionamento)
         {
             try
             {
-                var resultado = await _pessoaService.Editar(id, pessoa);
+                var resultado = await _relacionamentoService.Editar(id, relacionamento);
                 if (resultado)
                 {
                     return NoContent();

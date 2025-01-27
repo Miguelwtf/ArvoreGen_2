@@ -1,7 +1,7 @@
 ﻿import React, { useState } from "react";
 import axios from "axios";
 
-function PessoasAdicionar() {
+function InformacoesAdicionar() {
     const [formData, setFormData] = useState({
     });
 
@@ -76,4 +76,4 @@ function PessoasAdicionar() {
     );
 }
 
-export default PessoasAdicionar;
+export default InformacoesAdicionar;

@@ -12,5 +12,7 @@ namespace ArvoreGen_2.Server.DbConnections
         { }
 
         public DbSet<Pessoa> Pessoas { get; set; }
+
+        public DbSet<Relacionamento> Relacionamentos { get; set; }
     }
 }

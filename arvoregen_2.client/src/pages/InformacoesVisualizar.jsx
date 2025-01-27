@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const PessoasVisualizar = () => {
+const InformacoesVisualizar = () => {
     const [pessoas, setPessoas] = useState([]);
 
     useEffect(() => {
@@ -71,4 +71,4 @@ const PessoasVisualizar = () => {
     );
 };
 
-export default PessoasVisualizar;
+export default InformacoesVisualizar;

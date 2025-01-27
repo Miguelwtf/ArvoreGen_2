@@ -48,5 +48,21 @@ namespace ArvoreGen_2.Server.Models
             await _context.SaveChangesAsync();
             return true; 
         }
+
+        public async Task<bool> Editar(int id, Pessoa pessoa)
+        {
+            var pessoaExistente = await _context.Pessoas.FindAsync(id);
+            if (pessoaExistente == null)
+            {
+                return false;
+            }
+
+            pessoaExistente.Nome = pessoa.Nome;
+            pessoaExistente.Sexo = pessoa.Sexo;
+            pessoaExistente.DataNascimento = pessoa.DataNascimento;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
