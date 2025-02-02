@@ -39,5 +39,16 @@ const App = () => {
 };
 
 export default App;
-//server -> dotnet run
-//client -> npm run dev
+
+
+/* Prompt ---- Server 
+ cd arvoregen_2
+ cd arvoregen_2.server
+ dotnet run
+*/
+
+/* Prompt ---- Client 
+ cd arvoregen_2
+ cd arvoregen_2.client
+ npm run dev
+*/

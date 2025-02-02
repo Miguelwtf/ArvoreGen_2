@@ -17,7 +17,7 @@ namespace ArvoreGen_2.Server.Models
         [Required]
         public int? IdPessoa2 { get; set; }
 
-        [StringLength(100)]
-        public string? TipoRelacionamento { get; set; } 
+        [Required]
+        public int? TipoRelacionamento { get; set; } 
     }
 }

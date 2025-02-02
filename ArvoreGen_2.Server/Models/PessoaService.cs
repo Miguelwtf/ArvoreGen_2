@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using ArvoreGen_2.Server.DbConnections;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace ArvoreGen_2.Server.Models
 {
@@ -11,7 +13,7 @@ namespace ArvoreGen_2.Server.Models
     {
         private readonly ApplicationDbContext _context;
 
-        const string SINALIZADOR = " #############################";
+        const string SINALIZADOR = " ##########################################################";
 
         public PessoaService(ApplicationDbContext context)
         {
@@ -21,6 +23,8 @@ namespace ArvoreGen_2.Server.Models
         /* Visualizar ------------------------- */
         public async Task<List<Pessoa>> GetAll()
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - GetAll" + "\n" + SINALIZADOR);
+
             return await _context.Pessoas.ToListAsync();
         }
 
@@ -31,13 +35,16 @@ namespace ArvoreGen_2.Server.Models
             
             _context.Pessoas.Add(pessoa);
 
-            Console.WriteLine("Data Falecimento: " + pessoa.DataNascimento + SINALIZADOR);
-            
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Adicionar" + "\n" + SINALIZADOR);
+
             await _context.SaveChangesAsync();
         }
-
+        
+        /* Deletar ------------------------- */
         public async Task<bool> Deletar(int id)
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Deletar" + "\n" + SINALIZADOR);
+
             var pessoa = await _context.Pessoas.FindAsync(id);
             if (pessoa == null)
             {
@@ -49,8 +56,11 @@ namespace ArvoreGen_2.Server.Models
             return true; 
         }
 
+        /* Editar ------------------------- */
         public async Task<bool> Editar(int id, Pessoa pessoa)
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Editar" + "\n" + SINALIZADOR);
+
             var pessoaExistente = await _context.Pessoas.FindAsync(id);
             if (pessoaExistente == null)
             {
@@ -63,6 +73,13 @@ namespace ArvoreGen_2.Server.Models
 
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<Pessoa>> ListarPessoa()
+        {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - ListarPessoa" + "\n" + SINALIZADOR);
+
+            return await _context.Pessoas.Select(p => new Pessoa { IdPessoa = p.IdPessoa, Nome = p.Nome }).ToListAsync();
         }
     }
 }

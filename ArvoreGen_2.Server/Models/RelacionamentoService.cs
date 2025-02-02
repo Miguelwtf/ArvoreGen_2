@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ArvoreGen_2.Server.DbConnections;
+using ArvoreGen_2.Server.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArvoreGen_2.Server.Models
@@ -11,7 +12,7 @@ namespace ArvoreGen_2.Server.Models
     {
         private readonly ApplicationDbContext _context;
 
-        const string SINALIZADOR = " #############################";
+        const string SINALIZADOR = " ##########################################################";
 
         public RelacionamentoService(ApplicationDbContext context)
         {
@@ -19,24 +20,40 @@ namespace ArvoreGen_2.Server.Models
         }
 
         /* Visualizar ------------------------- */
-        public async Task<List<Relacionamento>> GetAll()
+        public async Task<List<RelacionamentoDto>> GetAll()
         {
-            return await _context.Relacionamentos.ToListAsync();
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - GetAll" + "\n" + SINALIZADOR);
+
+            // Aqui, incluímos os dados de Pessoa1 e Pessoa2
+            var relacionamentos = await _context.Relacionamentos
+                .Include(r => r.IdPessoa1)  // Inclui a Pessoa1
+                .Include(r => r.IdPessoa2)  // Inclui a Pessoa2
+                .Select(r => new RelacionamentoDto
+                {
+                    IdRelacionamento = r.IdRelacionamento,
+                    Pessoa1Nome = r.IdPessoa1.Nome,  // Mapeia o nome de Pessoa1
+                    Pessoa2Nome = r.IdPessoa2.Nome,  // Mapeia o nome de Pessoa2
+                    TipoRelacionamento = r.TipoRelacionamento
+                })
+                .ToListAsync();
+
+            return relacionamentos;
         }
 
         /* Adicionar ------------------------- */
         public async Task Adicionar(Relacionamento relacionamento)
         {
-            
             _context.Relacionamentos.Add(relacionamento);
 
-            Console.WriteLine("Data Falecimento: " + SINALIZADOR);
-            
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Adicionar" + "\n" + SINALIZADOR);
+
             await _context.SaveChangesAsync();
         }
 
         public async Task<bool> Deletar(int id)
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Deletar" + "\n" + SINALIZADOR);
+
             var relacionamento = await _context.Relacionamentos.FindAsync(id);
             if (relacionamento == null)
             {
@@ -45,7 +62,8 @@ namespace ArvoreGen_2.Server.Models
 
             _context.Relacionamentos.Remove(relacionamento);
             await _context.SaveChangesAsync();
-            return true; 
+
+            return true;
         }
 
         public async Task<bool> Editar(int id, Relacionamento relacionamento)
@@ -59,6 +77,8 @@ namespace ArvoreGen_2.Server.Models
             relacionamentoExistente.IdPessoa1 = relacionamento.IdPessoa1;
             relacionamentoExistente.IdPessoa2 = relacionamento.IdPessoa2;
             relacionamentoExistente.TipoRelacionamento = relacionamento.TipoRelacionamento;
+
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Editar" + "\n" + SINALIZADOR);
 
             await _context.SaveChangesAsync();
             return true;

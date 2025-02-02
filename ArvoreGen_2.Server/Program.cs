@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IPessoaService, PessoaService>();
+builder.Services.AddScoped<IRelacionamentoService, RelacionamentoService>();
 
 builder.Services.AddControllers();
 
@@ -27,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost",
         builder => builder
-            .WithOrigins("https://localhost:56214")
+            .WithOrigins("https://localhost:56213") //56214
             .AllowAnyMethod()
             .AllowAnyHeader());
 });

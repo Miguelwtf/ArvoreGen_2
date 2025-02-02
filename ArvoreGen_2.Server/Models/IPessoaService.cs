@@ -17,5 +17,7 @@ namespace ArvoreGen_2.Server.Models
         Task<bool> Deletar(int id);
 
         Task<bool> Editar(int id, Pessoa pessoa);
+
+        Task<List<Pessoa>> ListarPessoa();
     }
 }

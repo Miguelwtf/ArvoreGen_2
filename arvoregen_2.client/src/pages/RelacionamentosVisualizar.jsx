@@ -8,33 +8,14 @@ const RelacionamentosVisualizar = () => {
         const fetchRelacionamentos = async () => {
             try {
                 const response = await axios.get("http://localhost:5162/api/relacionamento/visualizar");
-                console.log("Dados recebidos:", response.data); 
-                setPessoas(response.data);
+                setRelacionamentos(response.data);
             } catch (error) {
-                console.error("Erro ao buscar pessoas:", error);
+                console.error("Erro ao buscar relacionamentos:", error);
             }
         };
 
         fetchRelacionamentos();
     }, []);
-
-    const handleDelete = async (idRelacionamento) => {
-        const confirmDelete = window.confirm("Tem certeza que deseja excluir esta pessoa?");
-        if (!confirmDelete) return;
-
-        try {
-            await axios.delete(`http://localhost:5162/api/relacionamento/excluir/${idPessoa}`);
-        } catch (error) {
-            console.error("Erro ao excluir pessoa:", error);
-        }
-        alert("Relacionamentos excluída com sucesso!");
-        setPessoas(relacionamento.filter((relacionamento) => relacionamento.idRelacionamento !== idRelacionamento));
-    };
-
-    const handleEdit = (idRelacionamento) => {
-        window.location.href = `/relacionamento/editar/${idRelacionamento}`;
-    };
-
 
     return (
         <div className="container">
@@ -53,17 +34,25 @@ const RelacionamentosVisualizar = () => {
                 <tbody>
                     {relacionamentos.length > 0 ? (
                         relacionamentos.map((relacionamento) => (
-                            <tr key={relacionamento.idrelacionamento}>
-                                <td>{relacionamento.idrelacionamento}</td>
-                                <td>{relacionamento.idpessoa1}</td>
-                                <td>{relacionamento.idpessoa2}</td>
-                                <td>{relacionamento.tiporelacionamento}</td>
-                                <td><button className="btn btn-info" onClick={() => handleEdit(relacionamento.idRelacionamento)}>-</button> </td>
-                                <td><button className="btn btn-danger" onClick={() => handleDelete(relacionamento.idRelacionamento)}>X</button> </td>
+                            <tr key={relacionamento.IdRelacionamento}>
+                                <td>{relacionamento.IdRelacionamento}</td>
+                                <td>{relacionamento.Pessoa1Nome}</td>
+                                <td>{relacionamento.Pessoa2Nome}</td>
+                                <td>{relacionamento.TipoRelacionamento}</td>
+                                <td>
+                                    <button className="btn btn-info" onClick={() => window.location.href = `/relacionamento/editar/${relacionamento.IdRelacionamento}`}>
+                                        Editar
+                                    </button>
+                                </td>
+                                <td>
+                                    <button className="btn btn-danger" onClick={() => handleDelete(relacionamento.IdRelacionamento)}>
+                                        Excluir
+                                    </button>
+                                </td>
                             </tr>
                         ))
                     ) : (
-                        <tr><td colSpan="8">Nenhuma pessoa encontrada</td></tr>
+                        <tr><td colSpan="6">Nenhum relacionamento encontrado</td></tr>
                     )}
                 </tbody>
             </table>

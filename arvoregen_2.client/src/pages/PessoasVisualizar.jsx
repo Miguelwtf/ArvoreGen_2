@@ -4,6 +4,7 @@ import axios from "axios";
 const PessoasVisualizar = () => {
     const [pessoas, setPessoas] = useState([]);
 
+    /* Visualizar Pessoas */
     useEffect(() => {
         const fetchPessoas = async () => {
             try {
@@ -18,6 +19,7 @@ const PessoasVisualizar = () => {
         fetchPessoas();
     }, []);
 
+    /* Deletar Pessoas */
     const handleDelete = async (idPessoa) => {
         const confirmDelete = window.confirm("Tem certeza que deseja excluir esta pessoa?");
         if (!confirmDelete) return;
@@ -31,10 +33,10 @@ const PessoasVisualizar = () => {
         setPessoas(pessoas.filter((pessoa) => pessoa.idPessoa !== idPessoa));
     };
 
+    /* Editar Pessoas */
     const handleEdit = (idPessoa) => {
         window.location.href = `/pessoa/editar/${idPessoa}`;
     };
-
 
     return (
         <div className="container">

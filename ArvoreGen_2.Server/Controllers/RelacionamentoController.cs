@@ -23,6 +23,8 @@ namespace ArvoreGen_2.Server.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Visualizar()
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Visualizar" + "\n" + SINALIZADOR);
+
             var relacionamentos = await _relacionamentoService.GetAll();
             return Ok(relacionamentos);
         }
@@ -32,11 +34,12 @@ namespace ArvoreGen_2.Server.Controllers
         [Consumes("application/json")]
         public async Task<IActionResult> Adicionar([FromBody] Relacionamento novoRelacionamento)
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Adicionar" + "\n" + SINALIZADOR);
+
             if (novoRelacionamento == null)
             {
                 return BadRequest("Os dados da pessoa são inválidos.");
             }
-            Console.WriteLine(nameof(this.ToString) + " Adicionar " + SINALIZADOR);
 
             await _relacionamentoService.Adicionar(novoRelacionamento);
             return Ok("Pessoa adicionada com sucesso!");
@@ -45,6 +48,8 @@ namespace ArvoreGen_2.Server.Controllers
         [HttpDelete("excluir/{id}")]
         public async Task<IActionResult> Deletar(int id)
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Deletar" + "\n" + SINALIZADOR);
+
             try
             {
                 bool resultado = await _relacionamentoService.Deletar(id);
@@ -66,6 +71,8 @@ namespace ArvoreGen_2.Server.Controllers
         [HttpPut("editar/{id}")]
         public async Task<IActionResult> Editar(int id, [FromBody] Relacionamento relacionamento)
         {
+            Console.WriteLine(SINALIZADOR + "\n" + DateTime.Now + $" - {this.GetType().Name}" + $" - Editar" + "\n" + SINALIZADOR);
+
             try
             {
                 var resultado = await _relacionamentoService.Editar(id, relacionamento);
